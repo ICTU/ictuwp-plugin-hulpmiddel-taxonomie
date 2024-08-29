@@ -118,10 +118,11 @@ if ( ! taxonomy_exists( GC_HULPMIDDEL_TAX ) ) {
  *
  * @param String $hulpmiddel_name Specific term name/slug to query
  * @param Array $hulpmiddel_args Specific term query Arguments to use
+ * @param Boolean $skip_landingspage_when_linked Go straight to Link and bypass Page, even when set?
  */
 
 
-function fn_ictu_hulpmiddel_get_hulpmiddel_terms( $hulpmiddel_name = null, $term_args = null ) {
+function fn_ictu_hulpmiddel_get_hulpmiddel_terms( $hulpmiddel_name = null, $term_args = null, $skip_landingspage_when_linked = false ) {
 
 	// TODO: I foresee that editors will want to have a custom order to the taxonomy terms
 	// but for now the terms are ordered alphabetically
@@ -163,16 +164,22 @@ function fn_ictu_hulpmiddel_get_hulpmiddel_terms( $hulpmiddel_name = null, $term
 				foreach ( $hulpmiddel_term_fields as $key => $val ) {
 
 					// Add path to image url
-					if ( $key == 'hulpmiddel_taxonomy_visual' && defined( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' ) ) {
+					if ( $key == 'hulpmiddel_taxonomy_visual' ) {
 						// Optionally convert to img tag with:
 						//   '<img width="800" height="450" src="%s/%s" class="hulpmiddel-taxonomy-visual" alt="" decoding="async" loading="lazy" />',
 						// for now just return the path:
-						$val = sprintf( '%s/images/%s', GC_HULPMIDDEL_TAX_ASSETS_PATH, $val );
+						$val = sprintf( '%s/%s', GC_HULPMIDDEL_TAX_VISUALS_PATH, $val );
 					}
 
 					// Add extra `url` property to Term if we have a linked Page
 					if ( $key == 'hulpmiddel_taxonomy_page' && ! empty( $val ) ) {
 						$hulpmiddel_term->url = get_permalink( $val );
+					}
+
+					// Add extra `direct` property to Term if we have a Link
+					// and we want to skip the Page (if set)
+					if ( $key == 'hulpmiddel_taxonomy_link' && ! empty( $val ) && $skip_landingspage_when_linked ) {
+						$hulpmiddel_term->direct = true;
 					}
 
 					$hulpmiddel_term->$key = $val;
@@ -211,7 +218,7 @@ function fn_ictu_hulpmiddel_get_post_hulpmiddel_terms( $post_id = null, $term_nu
 		'number'     => $term_number, // Return max $term_number Terms
 		'hide_empty' => true,
 		'parent'     => 0,
-		'fields'     => 'names' // Only return names (to use in `gc_hulpmiddel_get_hulpmiddel_terms()`)
+		'fields'     => 'names' // Only return names (to use in `fn_ictu_hulpmiddel_get_hulpmiddel_terms()`)
 	] );
 	if ( ! empty( $post_hulpmiddel_terms ) && ! is_wp_error( $post_hulpmiddel_terms ) ) {
 

@@ -31,8 +31,7 @@ if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 // Available Taxonomy visuals
 // ----------------------------
 // Base path for existing hulpmiddel taxonomy visuals
-$visuals_base_path = defined( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' ) ? GC_HULPMIDDEL_TAX_ASSETS_PATH : '/wp-content/plugins/ictuwp-plugin-hulpmiddel-taxonomie/assets';
-$visuals_base_img  = '<img src="' . $visuals_base_path . '/images/beeldmerken/%s" width="50" height="50" class="hulpmiddel-visual" alt="" />%s';
+$visuals_base_img = '<img src="' . GC_HULPMIDDEL_TAX_VISUALS_PATH . '/%s" width="50" height="50" class="hulpmiddel-visual" alt="" />%s';
 
 $visuals = array(
 	'none' => 'Geen beeldmerk',

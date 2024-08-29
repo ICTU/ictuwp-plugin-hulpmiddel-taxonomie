@@ -17,7 +17,7 @@ $context['has_centered_intro'] = false;
 /**
  * Add hulpmiddelen (terms in Hulpmiddel taxonomy)
  */
-if ( function_exists( 'gc_hulpmiddel_get_hulpmiddel_terms' ) ) {
+if ( function_exists( 'fn_ictu_hulpmiddel_get_hulpmiddel_terms' ) ) {
 	$hulpmiddel_items = [];
 
 	// Fill items (cards) for overview template
@@ -34,11 +34,10 @@ if ( function_exists( 'gc_hulpmiddel_get_hulpmiddel_terms' ) ) {
 	// here, after we've retrieved the page title
 	// in the loop below.
 
-	// skip any hulpmiddel terms that do not have any content attached
 	$select_args = array(
 		'taxonomy'   => GC_HULPMIDDEL_TAX,
-		// NO Terms with NO linked content
-		'hide_empty' => true,
+		// Also Terms with NO linked content (could be external link)
+		'hide_empty' => false,
 		'orderby'    => 'name',
 		'order'      => 'ASC',
 	);
@@ -57,10 +56,11 @@ if ( function_exists( 'gc_hulpmiddel_get_hulpmiddel_terms' ) ) {
 		 * ..BUT also with added ACF fields as properties!
 		 * (These could be empty)
 		 *
-		 * `hulpmiddel_taxonomy_colorscheme` {String}  Name of colorscheme, eg. "pink"
-		 * `hulpmiddel_taxonomy_visualm`     {Array}   Path to Hulpmiddel image
-		 * `hulpmiddel_taxonomy_link`        {Array}   Link object (title, url, target)
-		 * `hulpmiddel_taxonomy_page`        {Integer} ID of linked page
+		 * `hulpmiddel_taxonomy_colorscheme`    {String}  Name of colorscheme, eg. "pink"
+		 * `hulpmiddel_taxonomy_visual`         {Array}   Path to Hulpmiddel beeldmerk
+		 * `hulpmiddel_taxonomy_link`           {Array}   Link object (title, url, target)
+		 * `hulpmiddel_taxonomy_page`           {Integer} ID of linked page
+		 * `hulpmiddel_taxonomy_featured_image` {Array}   Featured image object
 		 */
 
 		$item = array(
@@ -119,6 +119,7 @@ if ( function_exists( 'gc_hulpmiddel_get_hulpmiddel_terms' ) ) {
 					$item_url      = get_page_link( $item_page );
 					// the sort order is based on the slug of the page (which is *probably* based on the page title)
 					$item['slug'] = $item_page->post_name;
+
 					// Override: card Description from:
 					// - the page excerpt (if set)
 					// - else: the page 00 - intro (if set)
@@ -150,14 +151,22 @@ if ( function_exists( 'gc_hulpmiddel_get_hulpmiddel_terms' ) ) {
 			}
 		}
 
-		// Visual
-		if ( $hulpmiddel->hulpmiddel_taxonomy_visual ) {
-			// Store the `visual` in the Card item
-			$item['visual'] = $hulpmiddel->hulpmiddel_taxonomy_visual;
-			// Use visual as card image only if no other image is set
-			if ( ! $item_img ) {
-				$item_img = $hulpmiddel->hulpmiddel_taxonomy_visual;
+		// Visual:
+		// Use the Page featured image as card image.
+		// Then try `hulpmiddel_taxonomy_featured_image`
+		// Finally try `hulpmiddel_taxonomy_visual`
+		if ( empty( $item_img ) ) {
+			$term_thumbnail = $hulpmiddel->hulpmiddel_taxonomy_featured_image;
+			$term_visual    = $hulpmiddel->hulpmiddel_taxonomy_visual;
+			if ( ! empty( $term_thumbnail ) ) {
+				$item_img = wp_get_attachment_image_url( $term_thumbnail['ID'], 'halfwidth' );
+			} elseif ( ! empty( $term_visual ) ) {
+				$item_img = $term_visual;
 			}
+		}
+		// Also store the `visual` in the Card item
+		if ( $hulpmiddel->hulpmiddel_taxonomy_visual ) {
+			$item['visual'] = $hulpmiddel->hulpmiddel_taxonomy_visual;
 		}
 
 		// Colorscheme:
@@ -175,6 +184,13 @@ if ( function_exists( 'gc_hulpmiddel_get_hulpmiddel_terms' ) ) {
 			// We do not link to a subsite directly,
 			// but _always_ refer to the landing page (URL) first..
 			$item['link'] = $hulpmiddel->hulpmiddel_taxonomy_link;
+
+			// SETTING: Link directly to the subsite?
+			// only if `direct` is set to true, we skip the landing page...
+			if ( isset( $hulpmiddel->direct ) && $hulpmiddel->direct ) {
+				// Override URL. Skip page and link straight to Link URL.
+				$item_url = $item['link']['url'];
+			}
 		}
 
 		// Use preferred image for card

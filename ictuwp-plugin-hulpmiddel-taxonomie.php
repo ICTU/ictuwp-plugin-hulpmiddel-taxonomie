@@ -29,6 +29,7 @@ defined( 'GC_HULPMIDDEL_TAX_OVERVIEW_TEMPLATE' ) or define( 'GC_HULPMIDDEL_TAX_O
 defined( 'GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE' ) or define( 'GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE', 'template-detail-hulpmiddelen.php' );
 defined( 'GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE' ) or define( 'GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE', 'template-posts-hulpmiddelen.php' );
 defined( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' ) or define( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' , '/wp-content/plugins/ictuwp-plugin-hulpmiddel-taxonomie/assets' );
+defined( 'GC_HULPMIDDEL_TAX_VISUALS_PATH' ) or define( 'GC_HULPMIDDEL_TAX_VISUALS_PATH' , GC_HULPMIDDEL_TAX_ASSETS_PATH . '/images/beeldmerken' );
 //========================================================================================================
 // only this plugin should activate the GC_HULPMIDDEL_TAX taxonomy
 if ( ! taxonomy_exists( GC_HULPMIDDEL_TAX ) ) {

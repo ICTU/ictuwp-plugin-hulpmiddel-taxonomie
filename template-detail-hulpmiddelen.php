@@ -19,7 +19,7 @@ $context['show_author'] = false;
 
 if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 	// Update body class
-	$context['body_class'] = ( $context['body_class'] ?: '' ) . ' hulpmiddel--' . $current_hulpmiddel_term->slug;
+	$context['body_class'] = ( $context['body_class'] ?: '' ) . ' single-hulpmiddel hulpmiddel--' . $current_hulpmiddel_term->slug;
 }
 
 $templates = [ 'hulpmiddel-detail.twig', 'page.twig' ];
@@ -79,11 +79,8 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 
 		// If we have a visual, store it in $context
 		if ( isset( $current_hulpmiddel_term_fields['hulpmiddel_taxonomy_visual'] ) ) {
-			// Story complete Path to image (if available)
-			$context['visual'] = $current_hulpmiddel_term_fields['hulpmiddel_taxonomy_visual'];
-			if ( defined( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' ) ) {
-				$context['visual'] = sprintf( '%s/images/%s', GC_HULPMIDDEL_TAX_ASSETS_PATH, $context['visual'] );
-			}
+			// Store complete Path to image (if available)
+			$context['visual'] = sprintf( '%s/%s', GC_HULPMIDDEL_TAX_VISUALS_PATH, $current_hulpmiddel_term_fields['hulpmiddel_taxonomy_visual'] );
 		}
 
 		// If we have an extra Hulpmiddel Link
@@ -93,9 +90,9 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 	}
 
 	// Fallback: Term VISUAL
-	if ( ! array_key_exists( 'visual', $context ) ) {
-		$context['visual'] = sprintf( '%s/images/', GC_HULPMIDDEL_TAX_ASSETS_PATH ) . 'c-default.svg';
-	}
+	// if ( ! array_key_exists( 'visual', $context ) ) {
+	// 	$context['visual'] = sprintf( '%s/', GC_HULPMIDDEL_TAX_VISUALS_PATH ) . 'default.svg';
+	// }
 
 	// // Fallback: Term COLORSCHEME
 	// if ( ! array_key_exists( 'palette', $context ) && function_exists( 'gc_get_colorschemes' ) ) {

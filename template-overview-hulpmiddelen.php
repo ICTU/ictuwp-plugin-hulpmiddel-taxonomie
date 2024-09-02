@@ -105,12 +105,10 @@ if ( function_exists( 'fn_ictu_hulpmiddel_get_hulpmiddel_terms' ) ) {
 				$item_page_template    = get_post_meta( $item_page_id, '_wp_page_template', true );
 				// .. and if page is published
 				$item_page_status      = get_post_status( $item_page_id );
-
-				$item_page_template_ok = GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE === $item_page_template;
 				$item_page_status_ok   = 'publish' === $item_page_status;
 
 				// Only continue if page has the correct template and is published
-				if ( $item_page_template_ok && $item_page_status_ok ) {
+				if ( $item_page_status_ok ) {
 					// Set Card image from page thumbnail
 					$item_img      = get_the_post_thumbnail_url( $item_page, 'image-16x9' ) ?: $item_img;
 					// Override: card Title from page link
@@ -139,12 +137,11 @@ if ( function_exists( 'fn_ictu_hulpmiddel_get_hulpmiddel_terms' ) ) {
 						continue;
 					} else {
 						// we show the card, but with a warning
-						// (optionally check specific error with: $item_page_template_ok and $item_page_status_ok)
 						$item['type']  = $item['type'] . ' card--has-warning';
 						$item['descr'] = sprintf(
 							'<a style="color:red" href="%s">%s</a>',
 							get_edit_post_link( $item_page, 'edit' ),
-							_x('Deze card is verborgen totdat de pagina het  \'<em>[Hulpmiddel] detailpagina</em>\' template krijgt en gepubliceerd wordt!', 'Hulpmiddel overview: card warning', 'gctheme'),
+							_x('Deze card is verborgen totdat de pagina gepubliceerd wordt!', 'Hulpmiddel overview: card warning', 'gctheme'),
 						);
 					}
 				}

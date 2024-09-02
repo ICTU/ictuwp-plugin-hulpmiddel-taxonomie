@@ -164,7 +164,11 @@ function fn_ictu_hulpmiddel_get_hulpmiddel_terms( $hulpmiddel_name = null, $term
 				foreach ( $hulpmiddel_term_fields as $key => $val ) {
 
 					// Add path to image url
-					if ( $key == 'hulpmiddel_taxonomy_visual' ) {
+					if ( $key == 'hulpmiddel_taxonomy_visual' ){
+						// Value could be `none`: if so skip
+						if ( $val == 'none' ) {
+							continue;
+						}
 						// Optionally convert to img tag with:
 						//   '<img width="800" height="450" src="%s/%s" class="hulpmiddel-taxonomy-visual" alt="" decoding="async" loading="lazy" />',
 						// for now just return the path:

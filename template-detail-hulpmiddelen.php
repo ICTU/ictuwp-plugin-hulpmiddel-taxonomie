@@ -119,114 +119,114 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 		$context['metabox_intro_text'] = $metabox_intro_text;
 	}
 
-	/**
-	 *  (20) Infoblokken (USP)
-	 * ----------------------------- */
-	$metabox_fields = get_field( 'icoonblokken' );
-	if ( ! empty( $metabox_fields ) ) {
-		if ( $metabox_fields && 'ja' === $metabox_fields['metabox_icoonblokken_show_or_not'] ) {
-			$metabox_fields_items = $metabox_fields['metabox_icoonblokken_items'];
+	// /**
+	//  *  (20) Infoblokken (USP)
+	//  * ----------------------------- */
+	// $metabox_fields = get_field( 'icoonblokken' );
+	// if ( ! empty( $metabox_fields ) ) {
+	// 	if ( $metabox_fields && 'ja' === $metabox_fields['metabox_icoonblokken_show_or_not'] ) {
+	// 		$metabox_fields_items = $metabox_fields['metabox_icoonblokken_items'];
 
-			foreach ( $metabox_fields_items as $block ) {
+	// 		foreach ( $metabox_fields_items as $block ) {
 
-				$item = array();
-				if ( isset( $block['title'] ) && $block['title'] && isset( $block['description'] ) && $block['description'] ) {
-					$item['modifier']                            = $block['icon'];
-					$item['title']                              = $block['title'];
-					$item['content']                            = wpautop( $block['description'] );
-					$context['metabox_icoonblokken']['items'][] = $item;
-				}
+	// 			$item = array();
+	// 			if ( isset( $block['title'] ) && $block['title'] && isset( $block['description'] ) && $block['description'] ) {
+	// 				$item['modifier']                            = $block['icon'];
+	// 				$item['title']                              = $block['title'];
+	// 				$item['content']                            = wpautop( $block['description'] );
+	// 				$context['metabox_icoonblokken']['items'][] = $item;
+	// 			}
 
-			}
+	// 		}
 
-		}
-	}
+	// 	}
+	// }
 
 
-	/**
-	 *  (30) Events box
-	 * ----------------------------- */
-	// Only show events if Events Manager plugin is active
-	if ( class_exists( 'EM_Events' ) ) {
-		// the events manager is active, which helps for selecting events
+	// /**
+	//  *  (30) Events box
+	//  * ----------------------------- */
+	// // Only show events if Events Manager plugin is active
+	// if ( class_exists( 'EM_Events' ) ) {
+	// 	// the events manager is active, which helps for selecting events
 
-		$metabox_fields = get_field( 'events' );
+	// 	$metabox_fields = get_field( 'events' );
 
-		if ( $metabox_fields && 'ja' === $metabox_fields['metabox_events_show_or_not'] ) {
+	// 	if ( $metabox_fields && 'ja' === $metabox_fields['metabox_events_show_or_not'] ) {
 
-			$method           = $metabox_fields['metabox_events_selection_method'] ?? '';
-			$maxnr            = $metabox_fields['metabox_events_max_nr'] ?? 3;
-			$metabox_item_ids = array();
+	// 		$method           = $metabox_fields['metabox_events_selection_method'] ?? '';
+	// 		$maxnr            = $metabox_fields['metabox_events_max_nr'] ?? 3;
+	// 		$metabox_item_ids = array();
 
-			if ( 'manual' === $method ) {
-				// manually selected events, returns an array of events
-				$metabox_item_ids = $metabox_fields['metabox_events_selection_manual'];
+	// 		if ( 'manual' === $method ) {
+	// 			// manually selected events, returns an array of events
+	// 			$metabox_item_ids = $metabox_fields['metabox_events_selection_manual'];
 
-			} else {
-				// select latest events for $current_hulpmiddel_taxid
-				// _event_start_date is a meta field for the events post type
-				// this query selects future events for the $current_hulpmiddel_taxid
-				$currentdate = date( "Y-m-d" );
-				$args        = array(
-					'posts_per_page' => $maxnr,
-					'post_type'      => EM_POST_TYPE_EVENT,
-					'meta_key'       => '_event_start_date',
-					'orderby'        => 'meta_value',
-					'post_status'    => 'publish',
-					'order'          => 'ASC', // order by start date ascending
-					'fields'         => 'ids', // only return IDs
-					'tax_query'      => array(
-						array(
-							'taxonomy' => GC_HULPMIDDEL_TAX,
-							'field'    => 'term_id',
-							'terms'    => $current_hulpmiddel_term->term_id,
-						)
-					),
-					'meta_query'     => array(
-						array(
-							'key'     => '_event_start_date',
-							'value'   => $currentdate,
-							'compare' => '>=',
-							'type'    => 'DATE',
-						),
-					)
-				);
-				$query_items = new WP_Query( $args );
+	// 		} else {
+	// 			// select latest events for $current_hulpmiddel_taxid
+	// 			// _event_start_date is a meta field for the events post type
+	// 			// this query selects future events for the $current_hulpmiddel_taxid
+	// 			$currentdate = date( "Y-m-d" );
+	// 			$args        = array(
+	// 				'posts_per_page' => $maxnr,
+	// 				'post_type'      => EM_POST_TYPE_EVENT,
+	// 				'meta_key'       => '_event_start_date',
+	// 				'orderby'        => 'meta_value',
+	// 				'post_status'    => 'publish',
+	// 				'order'          => 'ASC', // order by start date ascending
+	// 				'fields'         => 'ids', // only return IDs
+	// 				'tax_query'      => array(
+	// 					array(
+	// 						'taxonomy' => GC_HULPMIDDEL_TAX,
+	// 						'field'    => 'term_id',
+	// 						'terms'    => $current_hulpmiddel_term->term_id,
+	// 					)
+	// 				),
+	// 				'meta_query'     => array(
+	// 					array(
+	// 						'key'     => '_event_start_date',
+	// 						'value'   => $currentdate,
+	// 						'compare' => '>=',
+	// 						'type'    => 'DATE',
+	// 					),
+	// 				)
+	// 			);
+	// 			$query_items = new WP_Query( $args );
 
-				if ( $query_items->have_posts() ) {
-					// we only use post ids for the $metabox_item_ids array
-					$metabox_item_ids = $query_items->posts;
-				}
+	// 			if ( $query_items->have_posts() ) {
+	// 				// we only use post ids for the $metabox_item_ids array
+	// 				$metabox_item_ids = $query_items->posts;
+	// 			}
 
-				// ensure to reset the main query to original main query
-				wp_reset_query();
-			}
+	// 			// ensure to reset the main query to original main query
+	// 			wp_reset_query();
+	// 		}
 
-			if ( $metabox_item_ids ) {
-				// we have events
-				$context['metabox_events']          = [];
-				$context['metabox_events']['items'] = [];
-				$context['metabox_events']['title'] = $metabox_fields['metabox_events_titel'] ?? '';
-				$context['metabox_events']['descr'] = $metabox_fields['metabox_events_description'] ?? '';
-				$url                                = $metabox_fields['metabox_events_url_overview'] ?? [];
+	// 		if ( $metabox_item_ids ) {
+	// 			// we have events
+	// 			$context['metabox_events']          = [];
+	// 			$context['metabox_events']['items'] = [];
+	// 			$context['metabox_events']['title'] = $metabox_fields['metabox_events_titel'] ?? '';
+	// 			$context['metabox_events']['descr'] = $metabox_fields['metabox_events_description'] ?? '';
+	// 			$url                                = $metabox_fields['metabox_events_url_overview'] ?? [];
 
-				// Add CTA 'overzichtslink' as cta Array to metabox_events
-				if ( $url && isset( $url['title'] ) && isset( $url['url'] ) ) {
-					$context['metabox_events']['cta']          = [];
-					$context['metabox_events']['cta']['title'] = $url['title'];
-					$context['metabox_events']['cta']['url']   = $url['url'];
-				}
+	// 			// Add CTA 'overzichtslink' as cta Array to metabox_events
+	// 			if ( $url && isset( $url['title'] ) && isset( $url['url'] ) ) {
+	// 				$context['metabox_events']['cta']          = [];
+	// 				$context['metabox_events']['cta']['title'] = $url['title'];
+	// 				$context['metabox_events']['cta']['url']   = $url['url'];
+	// 			}
 
-				foreach ( $metabox_item_ids as $post_id ) {
+	// 			foreach ( $metabox_item_ids as $post_id ) {
 
-					$item                                 = prepare_card_content( get_post( $post_id ) );
-					$context['metabox_events']['items'][] = $item;
-				}
-				$context['metabox_events']['columncounter'] = count( $context['metabox_events']['items'] );
-			}
-		}
+	// 				$item                                 = prepare_card_content( get_post( $post_id ) );
+	// 				$context['metabox_events']['items'][] = $item;
+	// 			}
+	// 			$context['metabox_events']['columncounter'] = count( $context['metabox_events']['items'] );
+	// 		}
+	// 	}
 
-	}
+	// }
 
 	/**
 	 * (40) Posts box

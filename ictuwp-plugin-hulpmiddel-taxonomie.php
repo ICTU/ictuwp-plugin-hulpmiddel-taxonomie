@@ -8,8 +8,8 @@
  * Plugin Name:         ICTU / Gebruiker Centraal / Hulpmiddel taxonomie
  * Plugin URI:          https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie
  * Description:         Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina templates.
- * Version:             1.0.3
- * Version description: Fix: (tmp) disable some unneeded Metaboxes for Hulpmiddel Detail page (Community left-over).
+ * Version:             1.1.0
+ * Version description: Feat: Replace Hulpmiddel posts archive with Taxonomy ('thema') archive pages.
  * Author:              David Hund
  * Author URI:          https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie/
  * License:             GPL-3.0+
@@ -27,9 +27,9 @@ if ( ! defined( 'WPINC' ) ) {
 defined( 'GC_HULPMIDDEL_TAX' ) or define( 'GC_HULPMIDDEL_TAX', 'hulpmiddel' );
 defined( 'GC_HULPMIDDEL_TAX_OVERVIEW_TEMPLATE' ) or define( 'GC_HULPMIDDEL_TAX_OVERVIEW_TEMPLATE', 'template-overview-hulpmiddelen.php' );
 defined( 'GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE' ) or define( 'GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE', 'template-detail-hulpmiddelen.php' );
-defined( 'GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE' ) or define( 'GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE', 'template-posts-hulpmiddelen.php' );
 defined( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' ) or define( 'GC_HULPMIDDEL_TAX_ASSETS_PATH' , '/wp-content/plugins/ictuwp-plugin-hulpmiddel-taxonomie/assets' );
 defined( 'GC_HULPMIDDEL_TAX_VISUALS_PATH' ) or define( 'GC_HULPMIDDEL_TAX_VISUALS_PATH' , GC_HULPMIDDEL_TAX_ASSETS_PATH . '/images/beeldmerken' );
+defined( 'GC_HULPMIDDEL_ARCHIVE_TAX' ) or define( 'GC_HULPMIDDEL_ARCHIVE_TAX' , 'thema' );
 //========================================================================================================
 // only this plugin should activate the GC_HULPMIDDEL_TAX taxonomy
 if ( ! taxonomy_exists( GC_HULPMIDDEL_TAX ) ) {
@@ -90,60 +90,41 @@ if ( ! class_exists( 'GC_hulpmiddel_taxonomy' ) ) :
 			// check if the term has detail page attached
 			add_action( 'template_redirect', array( $this, 'fn_ictu_hulpmiddel_check_redirect' ) );
 
-			// Hide the `metabox_posts_category` field for 'hulpmiddel' related posts
-			// (because we already filter on Hulpmiddel tax term)
-			add_filter( 'acf/prepare_field/name=metabox_posts_category', function ( $field ) {
+			// Metabox: (40) Berichten tonen
+			// Update functionality of `metabox_posts_category` field
+			// 1. Change the taxonomy to the GC_HULPMIDDEL_ARCHIVE_TAX Taxonomy (Thema) if not 'category'
+			// 2. Change the label to 'Bericht <GC_HULPMIDDEL_ARCHIVE_TAX>' and `return_format` as `object`
+			//
+			// @TODO: @NOTE: this might not be needed if we refactor the original ACF metabox
+			// to use the THEMA tax instead of category...
+			// --------------------------------------------------
+
+			// [1] `metabox_posts_category`: Change the taxonomy of to Thema
+			// --------------------------------------------------
+			add_filter('acf/fields/taxonomy/query/name=metabox_posts_category', function ( $args, $field, $post_id ) {
+				// Only change on Hulpmiddel Detail page
+				if ( ! empty( $post_id ) && 'category' !== GC_HULPMIDDEL_ARCHIVE_TAX ) {
+					if ( get_post_meta( $post_id, '_wp_page_template', true ) === GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE ) {
+						$args['taxonomy'] = GC_HULPMIDDEL_ARCHIVE_TAX;
+					}
+				}
+				return $args;
+			}, 10, 3);
+
+			// [2] `metabox_posts_category`: Change the label to 'Bericht Thema'
+			// --------------------------------------------------
+			add_filter( 'acf/load_field/name=metabox_posts_category', function ( $field ) {
 				global $post;
-				if ( ! empty( $post ) ) {
-					// Check if we're currently editing a post
-					// with a Hulpmiddel template.
-					// If so: *disable* the category selection (return false)
-					// because we use the Hulpmiddel Tax...
-					$page_template = get_post_meta( $post->ID, '_wp_page_template', true );
-					if ( $page_template === GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE ) {
-						return false;
+				if ( ! empty( $post ) && 'category' !== GC_HULPMIDDEL_ARCHIVE_TAX ) {
+					if ( get_post_meta( $post->ID, '_wp_page_template', true ) === GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE ) {
+						$field['label'] = 'Filter berichten op ' . ucfirst( GC_HULPMIDDEL_ARCHIVE_TAX );
+						$field['taxonomy'] = GC_HULPMIDDEL_ARCHIVE_TAX;
+						$field['return_format'] = 'object';
 					}
 				}
 
 				return $field;
-			} );
-
-			// Update the default value of the automatic link text field from 'categorie' to 'hulpmiddel'
-			// add_filter( 'acf/prepare_field/name=metabox_posts_archive_selection_automatic_link_text', function( $field ) {
-			// 	if ( empty( $field['value'] ) || empty( $field['default_value'] ) ) {
-			// 		return $field;
-			// 	}
-
-			// 	if ( $field['value'] === $field['default_value'] ) {
-			// 		$new_default_value     = str_replace( 'categorie', GC_HULPMIDDEL_TAX, $field['default_value'] );
-			// 		$field['default_value'] = $new_default_value;
-			// 		$field['value']         = $new_default_value;
-			// 	}
-			// 	return $field;
-			// } );
-
-			/**
-			 * Filter the main query for Hulpmiddel Taxonomy Term Archives
-			 * Update the `post_type` to only include `post` type.
-			 *
-			 * @param WP_Query $query
-			 */
-
-			// NOTE: not needed because we use a separate page template
-			// for the Hulpmiddel Taxonomy Term POST Archives
-
-			// function hulpmiddel_term_archive_query_posts_only( $query ) {
-			// 	if ( ! is_admin() && $query->is_main_query() ) {
-			// 		// Not a query for an admin page.
-			// 		// It's the main query for a front end page of your site.
-			// 		if ( is_tax( GC_HULPMIDDEL_TAX ) ) {
-			// 			// It's the main query for a hulpmiddel tax term archive.
-			// 			// Now only include POSTS
-			// 			$query->set( 'post_type', array( 'post' ) );
-			// 		}
-			// 	}
-			// }
-			// add_action( 'pre_get_posts', 'hulpmiddel_term_archive_query_posts_only' );
+			}, 10, 1 );
 
 		}
 
@@ -201,8 +182,7 @@ if ( ! class_exists( 'GC_hulpmiddel_taxonomy' ) ) :
 
 				if (
 					( GC_HULPMIDDEL_TAX_OVERVIEW_TEMPLATE === $page_template ) ||
-					( GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE === $page_template ) ||
-					( GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE === $page_template )
+					( GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE === $page_template )
 				) {
 					// these names are added by this plugin, so we return
 					// the actual file path for this template
@@ -436,7 +416,6 @@ function fn_ictu_hulpmiddel_add_templates() {
 	$return_array = array(
 		GC_HULPMIDDEL_TAX_OVERVIEW_TEMPLATE      => _x( '[Hulpmiddel] overzicht', 'label page template', 'gctheme' ),
 		GC_HULPMIDDEL_TAX_DETAIL_TEMPLATE        => _x( '[Hulpmiddel] detailpagina', 'label page template', 'gctheme' ),
-		GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE => _x( '[Hulpmiddel] artikelen archief', 'label page template', 'gctheme' ),
 	);
 
 	return $return_array;

@@ -255,21 +255,12 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
 				'fields'         => 'ids', // only return IDs
-				'tax_query'      => array(
-					array(
-						'taxonomy' => GC_HULPMIDDEL_TAX,
-						'field'    => 'term_id',
-						'terms'    => $current_hulpmiddel_term->term_id,
-					)
-				)
 			);
 
 			// If we have a post category, add it to the Tax query
-			// we do not only query on Hulpmiddel Tax, but on Post Category as well
 			if ( ! empty( $metabox_posts_category ) ) {
-				$args['tax_query']['relation'] = 'AND';
 				$args['tax_query'][] = array(
-					'taxonomy' => 'category',
+					'taxonomy' => GC_HULPMIDDEL_ARCHIVE_TAX, // We query on thema taxonomy
 					'field'    => 'term_id',
 					'terms'    => $metabox_posts_category,
 				);
@@ -301,69 +292,70 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 			if ( ! empty( $archive_link_method ) && $archive_link_method !== 'none' ) {
 				// Automatic Archive Link:
 				if ( 'automatic' === $archive_link_method ) {
-					// Based on Taxonomy (default category, but now Hulpmiddel), so check if it's not empty..
-					// NOTE: user could ALSO have selected a Post Category
-					// ..but we ignore this for the archive link and use the Hulpmiddel archive here...
-					if ( isset( $current_hulpmiddel_term ) && ! empty( $current_hulpmiddel_term->term_id ) ) {
 
-						$metabox_posts_category_name = $current_hulpmiddel_term->name;
-						$metabox_posts_category_text = $metabox_fields['metabox_posts_archive_selection_automatic_link_text'] ?: _x( 'Bekijk alle berichten', 'Linktekst voor Hulpmiddel berichten', 'gctheme' );
-						$metabox_posts_category_link = get_term_link( (int) $current_hulpmiddel_term->term_id, GC_HULPMIDDEL_TAX );
+					// Hulpmiddel does _not_ have an archive.
+					// Posts are either chosen manually or automatically based on some _other_ Taxonomy.
+					// (which is defined in GC_HULPMIDDEL_ARCHIVE_TAX)
+					// Therefore: we can only link automatically to the GC_HULPMIDDEL_ARCHIVE_TAX archive.
+					// Do we have a set Post Category at all?
+					if ( array_key_exists( 'metabox_posts_category', $metabox_fields ) ) {
+						$metabox_posts_category = $metabox_fields['metabox_posts_category'];
+					}
 
-						// `$metabox_posts_category_link` is the default Hulpmiddel Taxonomy archive link
-						// but we want to link to a special 'Archive' page if it's available.
-						// So it's a fallback.
+					if ( ! empty( $metabox_posts_category ) && is_object( $metabox_posts_category ) ) {
 
-						// So:
-						// We try and get the 1st page with the template-posts-hulpmiddelen.php template
-						// that is a child of the current hulpmiddel page and use this page permalink as the archive link.
+						// Try and get the Term Link
 
-						// Query all page ID's with the template-posts-hulpmiddelen.php template:
-						// and check if they are either:
-						// - a child of this hulpmiddel page
-						// - or have a link to this hulpmiddel term
-						$all_child_archive_pages       = array();
-						$all_child_archive_pages_query = new WP_Query( array(
-							'post_type' => 'page',
-							'post_status' => 'publish',
-							'post_parent' => $timber_post->ID,
-							'posts_per_page' => 1,
-							'fields' => 'ids',
-							'meta_query' => array(
-								array(
-									'key' => '_wp_page_template',
-									'value' => GC_HULPMIDDEL_TAX_POSTS_ARCHIVE_TEMPLATE,
-									// "relation" => "AND",
-									// 'compare' => '=',
-								),
-							)
-						) );
+						// If our GC_HULPMIDDEL_ARCHIVE_TAX = 'thema'
+						// we try and find the LLK themafilter URL for our link.
+						// Else we pick the default Term Link.
+						if ( 'thema' === GC_HULPMIDDEL_ARCHIVE_TAX ) {
 
-						// The custom Loop
-						if ( $all_child_archive_pages_query->have_posts() ) {
-							while ( $all_child_archive_pages_query->have_posts() ) {
-								// Let's take what we need, here the whole object but you can pick only what you need:
-								$all_child_archive_pages_query->the_post();
-								$all_child_archive_pages[] = $post;
+							// fall back to hardcoded URL if we have not found a LLK 'lees' page
+							$metabox_posts_category_link = '/lees-luister-en-kijk/lees/';
+
+							// Now try and find our LLK 'lees' page
+							// (Hardcode 'template-llk-posts.php' :-/)
+							$llk_archive_page_query = new WP_Query( array(
+								'post_type' => 'page',
+								'post_status' => 'publish',
+								'posts_per_page' => 1,
+								'fields' => 'ids',
+								'meta_query' => array(
+									array(
+										'key' => '_wp_page_template',
+										'value' => 'template-llk-posts.php',
+									),
+								)
+							) );
+							if ( $llk_archive_page_query->have_posts() ) {
+								// Found a match, try and get the permalink from our 1st (!) post match.
+								$metabox_posts_category_link = get_permalink( reset( $llk_archive_page_query->posts ) );
 							}
+							// ensure to reset the main query to original main query
+							wp_reset_query();
 
-							// Override `$metabox_posts_category_link`
-							// with our found page permalink.
-							$metabox_posts_category_link = get_permalink( $all_child_archive_pages[0] );
+							// We should have an URL now. Now append the themafilter queryvar
+							$metabox_posts_category_link .= '?themafilter=' . $metabox_posts_category->slug;
 
-							// Reset our postdata:
-							wp_reset_postdata();
+						} else {
+							$metabox_posts_category_link = get_term_link( (int) $metabox_posts_category->term_id, GC_HULPMIDDEL_ARCHIVE_TAX );
+						}
 
-							// Replace placeholder with term name in automatic link text
-							$metabox_posts_category_text = sprintf( $metabox_posts_category_text, $metabox_posts_category_name );
+						if ( $metabox_posts_category_link && ! is_wp_error( $metabox_posts_category_link ) ) {
+							$metabox_posts_category_text = $metabox_fields['metabox_posts_archive_selection_automatic_link_text'] ?: _x( 'Bekijk alle berichten', 'Linktekst voor Hulpmiddel berichten', 'gctheme' );
+							$metabox_posts_category_text = sprintf( $metabox_posts_category_text, '"' . $metabox_posts_category->name . '"' );
 
 							$context['metabox_posts']['cta']['title'] = $metabox_posts_category_text;
 							$context['metabox_posts']['cta']['url']   = $metabox_posts_category_link;
-
-						} else {
-							// We have NO archive page
-							// So do NOT fill $context['metabox_posts']['cta']
 						}
+
+					} else {
+
+						// We have NO Post Category
+						// So we can NOT automatically link to a Post Category archive..
+						// ...
+
 					}
 				}
 

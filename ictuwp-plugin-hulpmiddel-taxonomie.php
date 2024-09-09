@@ -8,8 +8,8 @@
  * Plugin Name:         ICTU / Gebruiker Centraal / Hulpmiddel taxonomie
  * Plugin URI:          https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie
  * Description:         Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina templates.
- * Version:             1.1.0
- * Version description: Feat: Replace Hulpmiddel posts archive with Taxonomy ('thema') archive pages.
+ * Version:             1.1.1
+ * Version description: Fix: Do not require landingpage. Go `direct` to Hulpmiddel Link when no Page available.
  * Author:              David Hund
  * Author URI:          https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie/
  * License:             GPL-3.0+

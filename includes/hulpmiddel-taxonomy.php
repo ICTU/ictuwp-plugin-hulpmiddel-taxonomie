@@ -182,8 +182,15 @@ function fn_ictu_hulpmiddel_get_hulpmiddel_terms( $hulpmiddel_name = null, $term
 
 					// Add extra `direct` property to Term if we have a Link
 					// and we want to skip the Page (if set)
-					if ( $key == 'hulpmiddel_taxonomy_link' && ! empty( $val ) && $skip_landingspage_when_linked ) {
-						$hulpmiddel_term->direct = true;
+					if ( $key == 'hulpmiddel_taxonomy_link' && ! empty( $val ) ) {
+						if (
+							/* If passed `direct` param... */
+							$skip_landingspage_when_linked ||
+							/* .. OR we have a Link but no Page */
+							empty( $hulpmiddel_term_fields['hulpmiddel_taxonomy_page'] )
+						) {
+							$hulpmiddel_term->direct = true;
+						}
 					}
 
 					$hulpmiddel_term->$key = $val;

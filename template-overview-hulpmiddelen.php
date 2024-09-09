@@ -79,22 +79,23 @@ if ( function_exists( 'fn_ictu_hulpmiddel_get_hulpmiddel_terms' ) ) {
 
 		// Linked Landingpage
 		if ( empty( $hulpmiddel->hulpmiddel_taxonomy_page ) ) {
-			// We do NOT have a linked Page
-			// Abort *unless* we are viewing the page logged-in
-			// (in that case we show a warning)
-			if ( ! is_user_logged_in() ) {
-				// We do not show the card
-				continue;
-			} else {
-				// we show the card, but with a warning
-				$item['type']  = $item['type'] . ' card--has-warning';
-				$item['descr'] = sprintf(
-					'<a style="color:red" href="%s">%s</a>',
-					get_edit_term_link( $hulpmiddel->term_id, GC_HULPMIDDEL_TAX ),
-					_x('Deze card is verborgen totdat een pagina wordt gekoppeld aan deze Hulpmiddel!', 'Hulpmiddel overview: card warning', 'gctheme'),
-				);
+			if ( empty( $hulpmiddel->hulpmiddel_taxonomy_link ) ) {
+				// We do NOT have a linked Page NOR a Link URL.
+				// Abort *unless* we are viewing the page logged-in
+				// (in that case we show a warning)
+				if ( ! is_user_logged_in() ) {
+					// We do not show the card
+					continue;
+				} else {
+					// we show the card, but with a warning
+					$item['type']  = $item['type'] . ' card--has-warning';
+					$item['descr'] = sprintf(
+						'<a style="color:red" href="%s">%s</a>',
+						get_edit_term_link( $hulpmiddel->term_id, GC_HULPMIDDEL_TAX ),
+						_x('Deze card is verborgen totdat een pagina wordt gekoppeld aan deze Hulpmiddel!', 'Hulpmiddel overview: card warning', 'gctheme'),
+					);
+				}
 			}
-
 		} else {
 			// Fetch page from ID
 			$item_page = get_post( $hulpmiddel->hulpmiddel_taxonomy_page );

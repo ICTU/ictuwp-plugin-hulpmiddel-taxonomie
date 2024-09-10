@@ -255,6 +255,20 @@ function gc_add_hulpmiddel_tax_admin_css () {
 			background-image: linear-gradient(-90deg, white 30%, black 30%);
 		}
 		.swatch--green::before { background-image: linear-gradient(-90deg, #148839 30%, #148839 30%); }
+
+		:is([data-name="hulpmiddel_taxonomy_visual"], [data-name="hulpmiddel_taxonomy_colorscheme"]) ul.acf-radio-list li label {
+			display: flex;
+			align-items: center;
+			gap: 1em;
+			padding: .5em;
+			min-height: 50px;
+			border: 1px solid rgb(240, 240, 241);
+		}
+		:is([data-name="hulpmiddel_taxonomy_visual"], [data-name="hulpmiddel_taxonomy_colorscheme"]) ul.acf-radio-list label:has(:checked) {
+			background-color: #F0F6FC;
+			border-color: #2271b1;
+		}
+
 	';
 
 	// Dynamically add available colors

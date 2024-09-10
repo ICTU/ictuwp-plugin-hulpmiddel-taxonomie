@@ -3,9 +3,10 @@ Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina te
 
 
 ## Current version:
-* 1.1.1 - Fix: Do not require landingpage. Go `direct` to Hulpmiddel Link when no Page available.
+* 1.1.2 - Style: Slightly better styles for color swatches and visual.
 
 ## Version history
+* 1.1.2 - Style: Slightly better styles for color swatches and visual.
 * 1.1.1 - Fix: Do not require landingpage. Go `direct` to Hulpmiddel Link when no Page available.
 * 1.1.0 - Feat: Replace Hulpmiddel posts archive with Taxonomy ('thema') archive pages.
 * 1.0.3 - Fix: (tmp) disable some unneeded Metaboxes for Hulpmiddel Detail page (Community left-over).

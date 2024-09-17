@@ -70,7 +70,7 @@ if ( ! taxonomy_exists( GC_HULPMIDDEL_TAX ) ) {
 			'slug'       => $hulpmiddel_slug,
 			'with_front' => true,
 		],
-		"show_in_quick_edit" => true,
+		"show_in_quick_edit" => false,
 	];
 
 	// register the taxonomy with these post types

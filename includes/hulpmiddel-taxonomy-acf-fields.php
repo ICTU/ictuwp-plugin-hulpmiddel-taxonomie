@@ -145,7 +145,7 @@ acf_add_local_field_group( array(
 			'min_width' => '',
 			'min_height' => '',
 			'min_size' => '',
-			'max_width' => 960,
+			'max_width' => '',
 			'max_height' => '',
 			'max_size' => '',
 			'mime_types' => '',

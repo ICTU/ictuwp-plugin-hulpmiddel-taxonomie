@@ -5,7 +5,10 @@
 if ( wp ) {
     wp.domReady( () => {
         // Remove Hulpmiddel Taxonomy panel from sidebar
-        // on pages that have the Hulpmiddel Detail Page template
+        // console.log(`gc-hulpmiddel-editor.js`);
         wp.data.dispatch( 'core/editor').removeEditorPanel( 'taxonomy-panel-hulpmiddel' );
+        // Check:
+        // wp.data.dispatch( 'core/editor').toggleEditorPanelEnabled( 'taxonomy-panel-hulpmiddel' );
+        // wp.data.select( 'core/editor' ).getCurrentPost().template
     } );
 }

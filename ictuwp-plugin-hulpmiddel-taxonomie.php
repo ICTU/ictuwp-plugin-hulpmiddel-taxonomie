@@ -8,8 +8,8 @@
  * Plugin Name:         ICTU / Gebruiker Centraal / Hulpmiddel taxonomie
  * Plugin URI:          https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie
  * Description:         Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina templates.
- * Version:             1.2.1
- * Version description: Remove `max_width` on `hulpmiddel_taxonomy_featured_image`.
+ * Version:             1.2.2
+ * Version description: Make Metabox Hulpmiddel UI `select` instead of `radio`.
  * Author:              David Hund
  * Author URI:          https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie/
  * License:             GPL-3.0+

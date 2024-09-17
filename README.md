@@ -3,9 +3,10 @@ Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina te
 
 
 ## Current version:
-* 1.2.1 - Remove `max_width` on `hulpmiddel_taxonomy_featured_image`.
+* 1.2.2 - Make Metabox Hulpmiddel UI `select` instead of `radio`.
 
 ## Version history
+* 1.2.2 - Make Metabox Hulpmiddel UI `select` instead of `radio`.
 * 1.2.1 - Remove `max_width` on `hulpmiddel_taxonomy_featured_image`.
 * 1.2.0 - Remove `wpseo_breadcrumb_links` callback. Do not mess with breadcrumbs.
 * 1.1.2 - Style: Slightly better styles for color swatches and visual.

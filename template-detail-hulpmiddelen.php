@@ -387,6 +387,74 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 	}
 
 	/**
+	 * (45) Related Richtlijnen
+	 * ----------------------------- */
+	$metabox_richtlijnen = get_field( 'richtlijnen' );
+	if ( $metabox_richtlijnen && 'ja' === $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_show_or_not'] ) {
+		$maxnr            = -1; // todo TBD: should this be a user editable field?
+		$metabox_item_ids = array();
+		// Do we have a Hulpmiddel Term?
+		// Only continue if we do.
+		if ( $current_hulpmiddel_taxid ) {
+			$richtlijn_detail_template = defined( 'GC_RICHTLIJN_TAX_DETAIL_TEMPLATE' ) ? GC_RICHTLIJN_TAX_DETAIL_TEMPLATE : 'template-detail-richtlijnen.php';
+			// Get all Pages with the richtlijnen detail template
+			// and that have the current hulpmiddel term.
+			$args = array(
+				'posts_per_page' => $maxnr,
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'fields'          => 'ids', // only return IDs
+				'meta_query'     => array(
+					'relation' => 'AND',
+					array(
+						'key'   => '_wp_page_template',
+						'value' => $richtlijn_detail_template,
+					),
+				),
+				'tax_query'      => array(
+					array(
+						'taxonomy' => GC_HULPMIDDEL_TAX,
+						'field'     => 'term_id',
+						'terms'    => $current_hulpmiddel_taxid,
+					)
+				),
+			);
+			$richtlijn_pages_query = new WP_Query( $args );
+			if ( $richtlijn_pages_query->have_posts() ) {
+				// we only use post ids for the $metabox_item_ids array
+				$metabox_item_ids = $richtlijn_pages_query->posts;
+			}
+			// ensure to reset the main query to original main query
+			wp_reset_query();
+			if ( $metabox_item_ids ) {
+				$context['metabox_hulpmiddel_richtlijnen']                = [];
+				$context['metabox_hulpmiddel_richtlijnen']['items']       = [];
+				$context['metabox_hulpmiddel_richtlijnen']['cta']         = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_url_overview'];
+				$context['metabox_hulpmiddel_richtlijnen']['title']       = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_titel'] ?? '';
+				$context['metabox_hulpmiddel_richtlijnen']['description'] = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_omschrijving'] ?? '';
+				$richtlijnen_section_modifier = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_section_style'];
+				if ( $richtlijnen_section_modifier !== 'default' ) {
+					$context['metabox_hulpmiddel_richtlijnen']['modifier'] = $richtlijnen_section_modifier;
+				}
+				foreach ( $metabox_item_ids as $post_id ) {
+					$item  = prepare_card_content( get_post( $post_id ) );
+					// $image = get_the_post_thumbnail_url( $post_id, IMAGESIZE_16x9 );
+					// if ( $image ) {
+					// 	// decorative image, no value for alt attr.
+					// 	$item['img'] = '<img src="' . $image . '" alt="" />';
+					// 	// Provide Image as URL instead of HTML?
+					// 	// $item['img']     = $image;
+					// 	// $item['img_alt'] = '';
+					// }
+					$context['metabox_hulpmiddel_richtlijnen']['items'][] = $item;
+				}
+				$context['metabox_hulpmiddel_richtlijnen']['columncounter'] = count( $context['metabox_hulpmiddel_richtlijnen']['items'] );
+			}
+		}
+	}
+
+
+	/**
 	 * (50) profiles box
 	 * ----------------------------- */
 	// name of field is 'group_profiles', not 'profiles', as to avoid possible conflicts with function 'gc_get_profiles'

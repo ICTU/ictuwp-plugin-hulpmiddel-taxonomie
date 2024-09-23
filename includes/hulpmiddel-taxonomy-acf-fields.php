@@ -233,6 +233,213 @@ acf_add_local_field_group( array(
 ) );
 
 
+// Add the field group: 'Metabox: (45) Hulpmiddel Richtlijnen tonen'
+// definitions taken from:
+// [themes]/ictuwp-theme-gc2020/acf-json/group_66ec33e7e89d5.json.original
+//
+// Metabox order for template-detail-hulpmiddelen.php
+// this number determines $menu_order
+//
+// 10 - Intro-tekst
+// 20 - info / USP ("Wat houdt het in?")
+// 30 - Events
+// 40 - berichten
+// 45 - richtlijnen <--
+// 50 - profielen
+// 60 - formulier
+// 70 - partners
+// ----------------------------
+acf_add_local_field_group( array(
+	'key' => 'group_66ec33e7e89d5',
+	'title' => 'Metabox: (45) Hulpmiddel Richtlijnen tonen',
+	'fields' => array(
+		array(
+			'key' => 'field_66ec33e8e4da2',
+			'label' => 'Gerelateerde richtlijnen',
+			'name' => 'richtlijnen',
+			'aria-label' => '',
+			'type' => 'group',
+			'instructions' => 'Toon of verberg het blok met richtlijnen voor deze pagina.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'layout' => 'block',
+			'sub_fields' => array(
+				array(
+					'key' => 'field_66ec33e8e7237',
+					'label' => 'Richtlijnen tonen voor dit hulpmiddel?',
+					'name' => 'metabox_hulpmiddel_richtlijnen_show_or_not',
+					'aria-label' => '',
+					'type' => 'radio',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'choices' => array(
+						'ja' => 'Ja',
+						'nee' => 'Nee',
+					),
+					'default_value' => 'nee',
+					'return_format' => 'value',
+					'allow_null' => 0,
+					'other_choice' => 0,
+					'allow_in_bindings' => 1,
+					'layout' => 'horizontal',
+					'save_other_choice' => 0,
+				),
+				array(
+					'key' => 'field_66ec33e8e723f',
+					'label' => 'Titel',
+					'name' => 'metabox_hulpmiddel_richtlijnen_titel',
+					'aria-label' => '',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field' => 'field_66ec33e8e7237',
+								'operator' => '==',
+								'value' => 'ja',
+							),
+						),
+					),
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => 'Hulp nodig?',
+					'maxlength' => '',
+					'allow_in_bindings' => 1,
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '',
+				),
+				array(
+					'key' => 'field_66ec33e8e7246',
+					'label' => 'Omschrijving',
+					'name' => 'metabox_hulpmiddel_richtlijnen_omschrijving',
+					'aria-label' => '',
+					'type' => 'textarea',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field' => 'field_66ec33e8e7237',
+								'operator' => '==',
+								'value' => 'ja',
+							),
+						),
+					),
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+					'maxlength' => '',
+					'allow_in_bindings' => 0,
+					'rows' => 4,
+					'placeholder' => '',
+					'new_lines' => 'wpautop',
+				),
+				array(
+					'key' => 'field_66ec33e8e724d',
+					'label' => 'Overzichtslink',
+					'name' => 'metabox_hulpmiddel_richtlijnen_url_overview',
+					'aria-label' => '',
+					'type' => 'link',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field' => 'field_66ec33e8e7237',
+								'operator' => '==',
+								'value' => 'ja',
+							),
+						),
+					),
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'return_format' => 'array',
+					'allow_in_bindings' => 1,
+				),
+				array(
+					'key' => 'field_66ec33e8e7253',
+					'label' => 'Sectie stijl',
+					'name' => 'metabox_hulpmiddel_richtlijnen_section_style',
+					'aria-label' => '',
+					'type' => 'radio',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field' => 'field_66ec33e8e7237',
+								'operator' => '==',
+								'value' => 'ja',
+							),
+						),
+					),
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'choices' => array(
+						'default' => 'Standaard',
+						'background' => 'Met achtergrond',
+					),
+					'default_value' => 'background',
+					'return_format' => 'value',
+					'multiple' => 0,
+					'allow_null' => 0,
+					'allow_in_bindings' => 0,
+					'ui' => 0,
+					'ajax' => 0,
+					'placeholder' => '',
+				),
+			),
+		),
+	),
+	'location' => array(
+		array(
+			array(
+				'param' => 'page_template',
+				'operator' => '==',
+				'value' => 'template-detail-hulpmiddelen.php',
+			),
+		),
+	),
+	'menu_order' => 40,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+	'active' => true,
+	'description' => '',
+	'show_in_rest' => 0,
+) );
+
+
+// ----------------------------
+
+
 /**
  * The following appends CSS styles to the global
  * ACF styles. This is needed to customize our added <images>

@@ -3,7 +3,7 @@ Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina te
 
 
 ## Current version:
-* 1.3.0 - Add Richtlijnen to Hulpmiddel detailpage.
+* 1.4.0 - Related Hulpmiddel Richtlijnen are selectable, no longer automatic. Requires plugin ictuwp-plugin-richtlijn-taxonomie:1.3.0.
 
 ## Version history
 * 1.3.0 - Add Richtlijnen to Hulpmiddel detailpage.

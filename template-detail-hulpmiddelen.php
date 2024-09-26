@@ -387,6 +387,47 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 	}
 
 	/**
+	 * (45) Related Richtlijnen
+	 * ----------------------------- */
+	$metabox_richtlijnen = get_field( 'richtlijnen' );
+	if ( $metabox_richtlijnen && 'ja' === $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_show_or_not'] ) {
+
+		// Do we have a Hulpmiddel Term?
+		// Only continue if we do.
+		if ( $current_hulpmiddel_taxid && function_exists( 'prepare_richtlijn_card_content' )  ) {
+
+			$coupled_richtlijnen = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_select'];
+
+			if ( $coupled_richtlijnen ) {
+
+				$metabox_items = array();
+
+				foreach ( $coupled_richtlijnen as $richtlijn ) {
+					$metabox_items[] = prepare_richtlijn_card_content( $richtlijn );
+				}
+
+
+				if ( ! empty( $metabox_items ) ) {
+					$context['metabox_hulpmiddel_richtlijnen']                = array();
+					$context['metabox_hulpmiddel_richtlijnen']['items']       = array();
+					$context['metabox_hulpmiddel_richtlijnen']['cta']         = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_url_overview'];
+					$context['metabox_hulpmiddel_richtlijnen']['title']       = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_titel'] ?? '';
+					$context['metabox_hulpmiddel_richtlijnen']['description'] = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_omschrijving'] ?? '';
+
+					$richtlijnen_section_modifier = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_section_style'];
+					if ( $richtlijnen_section_modifier !== 'default' ) {
+						$context['metabox_hulpmiddel_richtlijnen']['modifier'] = $richtlijnen_section_modifier;
+					}
+
+					$context['metabox_hulpmiddel_richtlijnen']['items']         = $metabox_items;
+					$context['metabox_hulpmiddel_richtlijnen']['columncounter'] = count( $context['metabox_hulpmiddel_richtlijnen']['items'] );
+				}
+			}
+		}
+	}
+
+
+	/**
 	 * (50) profiles box
 	 * ----------------------------- */
 	// name of field is 'group_profiles', not 'profiles', as to avoid possible conflicts with function 'gc_get_profiles'

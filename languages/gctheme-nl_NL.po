@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ICTU / Gebruiker Centraal / Hulpmiddel taxonomie\n"
-"POT-Creation-Date: 2024-09-02 12:18+0200\n"
-"PO-Revision-Date: 2024-09-02 12:19+0200\n"
-"Last-Translator: David Hund <david@valuedstandards.com>\n"
+"POT-Creation-Date: 2024-10-07 17:06+0200\n"
+"PO-Revision-Date: 2024-10-07 17:06+0200\n"
+"Last-Translator: Paul van Buuren <poedit@wbvb.nl>\n"
 "Language-Team: David Hund\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: ictuwp-plugin-hulpmiddel-taxonomie.php\n"
@@ -21,35 +21,36 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:357
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:241
 msgctxt "Warning for redirect error"
 msgid "Er hangt geen gepubliceerde pagina aan dit hulpmiddel."
 msgstr ""
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:360
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:244
 #, php-format
 msgctxt "Warning for redirect error"
 msgid "<a href=\"%s\">Voeg een gepubliceerde pagina toe, alsjeblieft.</a>"
 msgstr ""
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:437
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:321
 msgctxt "label page template"
 msgid "[Hulpmiddel] overzicht"
 msgstr ""
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:438
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:322
 msgctxt "label page template"
 msgid "[Hulpmiddel] detailpagina"
-msgstr ""
-
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:439
-msgctxt "label page template"
-msgid "[Hulpmiddel] artikelen archief"
 msgstr ""
 
 #: includes/hulpmiddel-taxonomy-acf-fields.php:83
 msgctxt "Hulpmiddel taxonomy ACF field definition"
 msgid "Kleurenschema"
+msgstr ""
+
+#: includes/hulpmiddel-taxonomy-acf-fields.php:320
+#: template-detail-hulpmiddelen.php:404
+msgctxt "default title for richtlijnen"
+msgid "Hulp nodig?"
 msgstr ""
 
 #: includes/hulpmiddel-taxonomy.php:23 includes/hulpmiddel-taxonomy.php:24
@@ -172,7 +173,7 @@ msgctxt "Custom taxonomy arguments definition"
 msgid "Hulpmiddelen op het gebied van een gebruikersvriendelijke overheid"
 msgstr ""
 
-#: includes/hulpmiddel-taxonomy.php:229
+#: includes/hulpmiddel-taxonomy.php:236
 msgid "Hoort bij het hulpmiddel"
 msgid_plural "Hoort bij de hulpmiddelen"
 msgstr[0] ""
@@ -188,44 +189,25 @@ msgctxt "Hulpmiddel taxonomy error message"
 msgid "Kies een relevante hulpmiddel voor deze pagina. "
 msgstr ""
 
-#: template-detail-hulpmiddelen.php:310 template-detail-hulpmiddelen.php:374
+#: template-detail-hulpmiddelen.php:346 template-detail-hulpmiddelen.php:366
 msgctxt "Linktekst voor Hulpmiddel berichten"
 msgid "Bekijk alle berichten"
 msgstr ""
 
-#: template-detail-hulpmiddelen.php:407
+#: template-detail-hulpmiddelen.php:441
 msgctxt "default title for profiles"
 msgid "Meer weten over dit hulpmiddel?"
 msgstr ""
 
-#: template-overview-hulpmiddelen.php:94
+#: template-overview-hulpmiddelen.php:95
 msgctxt "Hulpmiddel overview: card warning"
 msgid ""
 "Deze card is verborgen totdat een pagina wordt gekoppeld aan deze Hulpmiddel!"
 msgstr ""
 
-#: template-overview-hulpmiddelen.php:144
+#: template-overview-hulpmiddelen.php:145
 msgctxt "Hulpmiddel overview: card warning"
 msgid "Deze card is verborgen totdat de pagina gepubliceerd wordt!"
-msgstr ""
-
-#: template-posts-hulpmiddelen.php:127 template-posts-hulpmiddelen.php:156
-msgctxt "LLK no content found"
-msgid "Geen berichten gevonden."
-msgstr ""
-
-#: template-posts-hulpmiddelen.php:148
-#, php-format
-msgctxt "LLK hulpmiddel archive intro"
-msgid "Hier vind je artikelen bij het hulpmiddel %s."
-msgstr ""
-
-#: template-posts-hulpmiddelen.php:159
-msgctxt "LLK no content found, editor message"
-msgid ""
-"Er kon geen Hulpmiddel Term worden gevonden. Valt deze pagina wel onder een "
-"Hulpmiddel? Zo niet: koppel dan handmatig een Hulpmiddel Term aan deze "
-"pagina."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -256,10 +238,6 @@ msgstr ""
 
 #. Template Name of the plugin/theme
 msgid "[Hulpmiddel] overzicht"
-msgstr ""
-
-#. Template Name of the plugin/theme
-msgid "[Hulpmiddel] artikelen archief"
 msgstr ""
 
 #~ msgctxt "label page template"

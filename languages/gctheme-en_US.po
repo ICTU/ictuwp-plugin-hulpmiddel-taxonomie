@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ICTU / Gebruiker Centraal / Hulpmiddel taxonomie\n"
-"POT-Creation-Date: 2024-09-02 12:12+0200\n"
-"PO-Revision-Date: 2024-09-02 12:18+0200\n"
-"Last-Translator: David Hund <david@valuedstandards.com>\n"
+"POT-Creation-Date: 2024-10-07 17:05+0200\n"
+"PO-Revision-Date: 2024-10-07 17:05+0200\n"
+"Last-Translator: Paul van Buuren <poedit@wbvb.nl>\n"
 "Language-Team: David Hund\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: ictuwp-plugin-hulpmiddel-taxonomie.php\n"
@@ -22,36 +22,37 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:357
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:241
 msgctxt "Warning for redirect error"
 msgid "Er hangt geen gepubliceerde pagina aan dit hulpmiddel."
 msgstr "There is no published page attached to this resource."
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:360
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:244
 #, php-format
 msgctxt "Warning for redirect error"
 msgid "<a href=\"%s\">Voeg een gepubliceerde pagina toe, alsjeblieft.</a>"
 msgstr "<a href=\"%s\">Please choose a published page for this term.</a>"
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:437
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:321
 msgctxt "label page template"
 msgid "[Hulpmiddel] overzicht"
 msgstr "[Resource] Overview"
 
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:438
+#: ictuwp-plugin-hulpmiddel-taxonomie.php:322
 msgctxt "label page template"
 msgid "[Hulpmiddel] detailpagina"
 msgstr "[Resource] detail page"
-
-#: ictuwp-plugin-hulpmiddel-taxonomie.php:439
-msgctxt "label page template"
-msgid "[Hulpmiddel] artikelen archief"
-msgstr "[Resource] articles archive"
 
 #: includes/hulpmiddel-taxonomy-acf-fields.php:83
 msgctxt "Hulpmiddel taxonomy ACF field definition"
 msgid "Kleurenschema"
 msgstr "Color scheme"
+
+#: includes/hulpmiddel-taxonomy-acf-fields.php:320
+#: template-detail-hulpmiddelen.php:404
+msgctxt "default title for richtlijnen"
+msgid "Hulp nodig?"
+msgstr "Need help?"
 
 #: includes/hulpmiddel-taxonomy.php:23 includes/hulpmiddel-taxonomy.php:24
 msgctxt "Custom taxonomy labels definition"
@@ -173,7 +174,7 @@ msgctxt "Custom taxonomy arguments definition"
 msgid "Hulpmiddelen op het gebied van een gebruikersvriendelijke overheid"
 msgstr "Resources for a user-friendly government"
 
-#: includes/hulpmiddel-taxonomy.php:229
+#: includes/hulpmiddel-taxonomy.php:236
 msgid "Hoort bij het hulpmiddel"
 msgid_plural "Hoort bij de hulpmiddelen"
 msgstr[0] "Belongs to the resource"
@@ -189,47 +190,26 @@ msgctxt "Hulpmiddel taxonomy error message"
 msgid "Kies een relevante hulpmiddel voor deze pagina. "
 msgstr "Choose a relevant resource for this page. "
 
-#: template-detail-hulpmiddelen.php:310 template-detail-hulpmiddelen.php:374
+#: template-detail-hulpmiddelen.php:346 template-detail-hulpmiddelen.php:366
 msgctxt "Linktekst voor Hulpmiddel berichten"
 msgid "Bekijk alle berichten"
 msgstr "View all posts"
 
-#: template-detail-hulpmiddelen.php:407
+#: template-detail-hulpmiddelen.php:441
 msgctxt "default title for profiles"
 msgid "Meer weten over dit hulpmiddel?"
 msgstr "Want to know more about this resource?"
 
-#: template-overview-hulpmiddelen.php:94
+#: template-overview-hulpmiddelen.php:95
 msgctxt "Hulpmiddel overview: card warning"
 msgid ""
 "Deze card is verborgen totdat een pagina wordt gekoppeld aan deze Hulpmiddel!"
 msgstr "This card is hidden until a page is linked to this Resource!"
 
-#: template-overview-hulpmiddelen.php:144
+#: template-overview-hulpmiddelen.php:145
 msgctxt "Hulpmiddel overview: card warning"
 msgid "Deze card is verborgen totdat de pagina gepubliceerd wordt!"
 msgstr "This card is hidden until the page is published!"
-
-#: template-posts-hulpmiddelen.php:127 template-posts-hulpmiddelen.php:156
-msgctxt "LLK no content found"
-msgid "Geen berichten gevonden."
-msgstr "No posts found."
-
-#: template-posts-hulpmiddelen.php:148
-#, php-format
-msgctxt "LLK hulpmiddel archive intro"
-msgid "Hier vind je artikelen bij het hulpmiddel %s."
-msgstr "Here you will find articles about the resource %s."
-
-#: template-posts-hulpmiddelen.php:159
-msgctxt "LLK no content found, editor message"
-msgid ""
-"Er kon geen Hulpmiddel Term worden gevonden. Valt deze pagina wel onder een "
-"Hulpmiddel? Zo niet: koppel dan handmatig een Hulpmiddel Term aan deze "
-"pagina."
-msgstr ""
-"No Resource Term could be found. Is this page covered by a Resource? If not, "
-"manually link a Resource Term to this page."
 
 #. Plugin Name of the plugin/theme
 msgid "ICTU / Gebruiker Centraal / Hulpmiddel taxonomie"
@@ -247,7 +227,7 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "David Hund"
-msgstr ""
+msgstr "David Hund"
 
 #. Author URI of the plugin/theme
 msgid "https://github.com/ICTU/ictuwp-plugin-hulpmiddel-taxonomie/"
@@ -261,9 +241,30 @@ msgstr "[Resource] detail page"
 msgid "[Hulpmiddel] overzicht"
 msgstr "[Resource] Overview"
 
-#. Template Name of the plugin/theme
-msgid "[Hulpmiddel] artikelen archief"
-msgstr "[Resource] articles archive"
+#~ msgctxt "label page template"
+#~ msgid "[Hulpmiddel] artikelen archief"
+#~ msgstr "[Resource] articles archive"
+
+#~ msgctxt "LLK no content found"
+#~ msgid "Geen berichten gevonden."
+#~ msgstr "No posts found."
+
+#, php-format
+#~ msgctxt "LLK hulpmiddel archive intro"
+#~ msgid "Hier vind je artikelen bij het hulpmiddel %s."
+#~ msgstr "Here you will find articles about the resource %s."
+
+#~ msgctxt "LLK no content found, editor message"
+#~ msgid ""
+#~ "Er kon geen Hulpmiddel Term worden gevonden. Valt deze pagina wel onder "
+#~ "een Hulpmiddel? Zo niet: koppel dan handmatig een Hulpmiddel Term aan "
+#~ "deze pagina."
+#~ msgstr ""
+#~ "No Resource Term could be found. Is this page covered by a Resource? If "
+#~ "not, manually link a Resource Term to this page."
+
+#~ msgid "[Hulpmiddel] artikelen archief"
+#~ msgstr "[Resource] articles archive"
 
 #~ msgctxt "label page template"
 #~ msgid "Hulpmiddel / overzicht"

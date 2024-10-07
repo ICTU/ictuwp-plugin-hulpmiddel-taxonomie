@@ -317,13 +317,13 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 							// Now try and find our LLK 'lees' page
 							// (Hardcode 'template-llk-posts.php' :-/)
 							$llk_archive_page_query = new WP_Query( array(
-								'post_type' => 'page',
-								'post_status' => 'publish',
+								'post_type'      => 'page',
+								'post_status'    => 'publish',
 								'posts_per_page' => 1,
-								'fields' => 'ids',
-								'meta_query' => array(
+								'fields'         => 'ids',
+								'meta_query'     => array(
 									array(
-										'key' => '_wp_page_template',
+										'key'   => '_wp_page_template',
 										'value' => 'template-llk-posts.php',
 									),
 								)
@@ -394,13 +394,14 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 
 		// Do we have a Hulpmiddel Term?
 		// Only continue if we do.
-		if ( $current_hulpmiddel_taxid && function_exists( 'prepare_richtlijn_card_content' )  ) {
+		if ( $current_hulpmiddel_taxid && function_exists( 'prepare_richtlijn_card_content' ) ) {
 
 			$coupled_richtlijnen = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_select'];
 
 			if ( $coupled_richtlijnen ) {
 
 				$metabox_items = array();
+				$default_title = _x( 'Hulp nodig?', 'default title for richtlijnen', 'gctheme' );
 
 				foreach ( $coupled_richtlijnen as $richtlijn ) {
 					$metabox_items[] = prepare_richtlijn_card_content( $richtlijn );
@@ -411,7 +412,7 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 					$context['metabox_hulpmiddel_richtlijnen']                = array();
 					$context['metabox_hulpmiddel_richtlijnen']['items']       = array();
 					$context['metabox_hulpmiddel_richtlijnen']['cta']         = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_url_overview'];
-					$context['metabox_hulpmiddel_richtlijnen']['title']       = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_titel'] ?? '';
+					$context['metabox_hulpmiddel_richtlijnen']['title']       = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_titel'] ? $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_titel'] : $default_title;
 					$context['metabox_hulpmiddel_richtlijnen']['description'] = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_omschrijving'] ?? '';
 
 					$richtlijnen_section_modifier = $metabox_richtlijnen['metabox_hulpmiddel_richtlijnen_section_style'];
@@ -474,7 +475,7 @@ if ( $current_hulpmiddel_term && ! is_wp_error( $current_hulpmiddel_term ) ) {
 	 * (we render the gc/logos Block in Theme's hulpmiddel-detail.twig)
 	 * ----------------------------- */
 	// Require a filled in list for this section to show
-	$metabox_logos_list  = get_field( 'logos_list' );
+	$metabox_logos_list = get_field( 'logos_list' );
 	if ( $metabox_logos_list ) {
 		$context['metabox_logos'] = array(
 			'title'       => get_field( 'logos_title' ),

@@ -3,9 +3,10 @@ Plugin voor het aanmaken van de 'hulpmiddel'-taxonomie en gerelateerde pagina te
 
 
 ## Current version:
-* 1.4.0 - Related Hulpmiddel Richtlijnen are selectable, no longer automatic. Requires plugin ictuwp-plugin-richtlijn-taxonomie:1.3.0.
+* 1.4.1 - Add default title text for related richtlijnen on detail page.
 
 ## Version history
+* 1.4.0 - Related Hulpmiddel Richtlijnen are selectable, no longer automatic. Requires plugin ictuwp-plugin-richtlijn-taxonomie:1.3.0.
 * 1.3.0 - Add Richtlijnen to Hulpmiddel detailpage.
 * 1.2.2 - Make Metabox Hulpmiddel UI `select` instead of `radio`.
 * 1.2.1 - Remove `max_width` on `hulpmiddel_taxonomy_featured_image`.
